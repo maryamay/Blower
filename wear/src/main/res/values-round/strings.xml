@@ -1,3 +1,11 @@
 <resources>
-    <string name="hello_world">Hello Round World!</string>
+    <string name="app_name">blower</string>
+    <string name="report">Call the police!</string>
+    <string name="new_message">New Message</string>
+    <string name="title_activity_delete">DeleteActivity</string>
+    <string name="delete_message">Delete Message</string>
+    <string name="title_activity_messages_list">MessagesList</string>
+    <string name="lat_label">Latitude:</string>
+    <string name="not_available">Not Available</string>
+    <string name="lon_label">Longitude:</string>
 </resources>

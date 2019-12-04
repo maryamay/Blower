@@ -1,18 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.wear.widget.BoxInsetLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/dark_grey"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
-    tools:deviceIds="wear"
-    android:padding="@dimen/box_inset_layout_padding">
+    android:background="#111">
 
-<ListView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/list_view"
-    />
-</androidx.wear.widget.BoxInsetLayout>
+    <View
+        android:id="@+id/center"
+        android:layout_width="1px"
+        android:layout_height="1px"
+        android:layout_centerInParent="true" />
+
+    <TextView
+        android:id="@+id/gps_issue_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/center"
+        android:layout_alignTop="@+id/report"
+        android:layout_centerInParent="true"
+        android:fontFamily="sans-serif-light"
+        android:paddingLeft="16dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="17sp"
+        android:textStyle="italic" />
+
+    <Button
+        android:id="@+id/report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="-10dp"
+        android:layout_toLeftOf="@+id/center"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/report"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/green"
+        android:textSize="20sp" />
+
+    <Button
+        android:id="@+id/sent_messages"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/report"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/report"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/sent_messages"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/sent_messages"
+        android:contentDescription="TODO"
+        android:src="@drawable/dot"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/location_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="33dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="Location Name Here"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/gps_permission"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="onGpsPermissionClick"
+        android:src="@drawable/ic_gps_not_saving_grey600_96dp" />
+
+    <ImageButton
+        android:id="@+id/speed_limit_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/gps_permission"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="40dp"
+        android:background="@drawable/settings"
+        android:onClick="onReport" />
+</RelativeLayout>
