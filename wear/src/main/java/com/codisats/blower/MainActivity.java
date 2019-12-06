@@ -1,38 +1,19 @@
 package com.codisats.blower;
 
-import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.wearable.activity.WearableActivity;
-import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.wearable.Wearable;
-
-import java.util.Calendar;
-
-import androidx.core.app.ActivityCompat;
-import androidx.wear.ambient.AmbientModeSupport;
 
 
-public class MainActivity extends WearableActivity implements AmbientModeSupport.AmbientCallbackProvider,
+public class MainActivity extends WearableActivity /*implements AmbientModeSupport.AmbientCallbackProvider,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
         ActivityCompat.OnRequestPermissionsResultCallback,
-        LocationListener {
+        LocationListener*/ {
 
-    private static final String TAG = "WearableActivity";
+    /*private static final String TAG = "WearableActivity";
+
+    private static final long UPDATE_INTERVAL_MS = TimeUnit.SECONDS.toMillis(5);
+    private static final long FASTEST_INTERVAL_MS = TimeUnit.SECONDS.toMillis(5);
 
     private static final long INDICATOR_DOT_FADE_AWAY_MS = 500L;
 
@@ -62,27 +43,29 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
 
     private boolean mWaitingForGpsSignal;
 
+    */
+
     /**
      * Ambient mode controller attached to this display. Used by the Activity to see if it is in
      * ambient mode.
-     */
+     *//*
     private AmbientModeSupport.AmbientController mAmbientController;
 
     private GoogleApiClient mGoogleApiClient;
 
     private Handler mHandler = new Handler();
 
-
+ */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate()");
+        // Log.d(TAG, "onCreate()");
 
         setContentView(R.layout.activity_main);
-
-
+    }
+/*
         // Enables Ambient mode.
-        mAmbientController = AmbientModeSupport.attach(this);
+       // mAmbientController = AmbientModeSupport.attach(this);
 
         mCalendar = Calendar.getInstance();
 
@@ -94,12 +77,12 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
         mGpsPermissionNeededMessage = getString(R.string.permission_rationale);
         mAcquiringGpsMessage = getString(R.string.acquiring_gps);
 
-        /*
+        *//*
          * If this hardware doesn't support GPS, we warn the user. Note that when such device is
          * connected to a phone with GPS capabilities, the framework automatically routes the
          * location requests from the phone. However, if the phone becomes disconnected and the
          * wearable doesn't support GPS, no location is recorded until the phone is reconnected.
-         */
+     *//*
         if (!hasGps()) {
             Log.w(TAG, "This hardware doesn't have GPS, so we warn user.");
             new AlertDialog.Builder(this)
@@ -123,14 +106,14 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
 
         setupViews();
 
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
+      *//*  mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addApi(Wearable.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
 
-
+*//*
         // Enables Always-on
         setAmbientEnabled();
     }
@@ -181,16 +164,16 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
         }
     }
 
-    /**
+    *//**
      * Adjusts the visibility of views based on location permissions.
-     */
+     *//*
     private void updateActivityViewsBasedOnLocationPermissions() {
 
-        /*
+        *//*
          * If the user has approved location but we don't have a signal yet, we let the user know
          * we are waiting on the GPS signal (this sometimes takes a little while). Otherwise, the
          * user might think something is wrong.
-         */
+     *//*
         if (mGpsPermissionApproved && mWaitingForGpsSignal) {
 
             // We are getting a GPS signal w/ user permission.
@@ -216,23 +199,23 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
         }
     }
 
-    @Override
+    *//*@Override
     public void onConnected(Bundle bundle) {
 
         Log.d(TAG, "onConnected()");
         requestLocation();
 
 
-    }
+    }*//*
 
     private void requestLocation() {
         Log.d(TAG, "requestLocation()");
 
-        /*
+        *//*
          * mGpsPermissionApproved covers 23+ (M+) style permissions. If that is already approved or
          * the device is pre-23, the app uses mSaveGpsLocation to save the user's location
          * preference.
-         */
+     *//*
         if (mGpsPermissionApproved) {
 
             LocationRequest locationRequest = LocationRequest.create()
@@ -274,7 +257,7 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
         Log.e(TAG, "onConnectionFailed(): " + connectionResult.getErrorMessage());
     }
 
-    @Override
+    *//*@Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "onLocationChanged() : " + location);
 
@@ -285,12 +268,12 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
         }
 
         addLocationEntry(location.getLatitude(), location.getLongitude());
-    }
+    }*//*
 
-    /*
+     *//*
      * Adds a data item to the data Layer storage.
-     */
-    private void addLocationEntry(double latitude, double longitude) {
+     *//*
+     *//*private void addLocationEntry(double latitude, double longitude) {
         if (!mGpsPermissionApproved || !mGoogleApiClient.isConnected()) {
             return;
         }
@@ -315,12 +298,12 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
                         }
                     }
                 });
-    }
+    }*//*
 
-    /**
+     *//**
      * Handles user choices for both speed limit and location permissions (GPS tracking).
-     */
-    @Override
+     *//*
+     *//*  @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         if (requestCode == REQUEST_PICK_SPEED_LIMIT) {
@@ -340,12 +323,12 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
                 updateSpeedInViews();
             }
         }
-    }
+    }*//*
 
-    /**
+     *//**
      * Callback received when a permissions request has been completed.
-     */
-    @Override
+     *//*
+     *//*@Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -372,24 +355,24 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
             updateActivityViewsBasedOnLocationPermissions();
 
         }
-    }
+    }*//*
 
-    /**
+     *//**
      * Returns {@code true} if this device has the GPS capabilities.
-     */
+     *//*
     private boolean hasGps() {
         return getPackageManager().hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS);
-    }
+    }*/
 
-    @Override
+  /*  @Override
     public AmbientModeSupport.AmbientCallback getAmbientCallback() {
         return new MyAmbientCallback();
-    }
+    }*/
 
-    private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
-        /**
+    /*private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
+     *//**
          * Prepares the UI for ambient mode.
-         */
+     *//*
         @Override
         public void onEnterAmbient(Bundle ambientDetails) {
             super.onEnterAmbient(ambientDetails);
@@ -401,9 +384,9 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
                     ContextCompat.getColor(getApplicationContext(), R.color.white));
         }
 
-        /**
+        *//**
          * Restores the UI to active (non-ambient) mode.
-         */
+     *//*
         @Override
         public void onExitAmbient() {
             super.onExitAmbient();
@@ -414,6 +397,6 @@ public class MainActivity extends WearableActivity implements AmbientModeSupport
             mSpeedTextView.setTextColor(
                     ContextCompat.getColor(getApplicationContext(), R.color.green));
         }
-    }
+    }*/
 
 }
