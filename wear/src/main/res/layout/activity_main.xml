@@ -37,6 +37,7 @@
         android:text="@string/report"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/green"
+        android:onClick="onReport"
         android:textSize="20sp" />
 
     <Button
@@ -49,6 +50,7 @@
         android:fontFamily="sans-serif-thin"
         android:text="@string/sent_messages"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:onClick="onSentClick"
         android:textSize="18sp" />
 
     <ImageView
@@ -93,5 +95,5 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="40dp"
         android:background="@drawable/settings"
-        android:onClick="onReport" />
+        android:onClick="onSendCustom" />
 </RelativeLayout>

@@ -28,7 +28,6 @@ public class MessagesList extends WearableActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
                     displaySpeechScreen();
-                    displayButton();
                 } else {
                     Message message = (Message) parent.getItemAtPosition(position);
 
@@ -41,9 +40,6 @@ public class MessagesList extends WearableActivity {
         });
 
         updateUI();
-    }
-
-    private void displayButton() {
     }
 
     @Override

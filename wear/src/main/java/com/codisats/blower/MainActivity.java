@@ -8,12 +8,15 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.speech.RecognizerIntent;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -387,6 +390,47 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     @Override
     public AmbientModeSupport.AmbientCallback getAmbientCallback() {
         return new MyAmbientCallback();
+    }
+
+    public void onSendCustom(View view) {
+        displaySpeechScreen();
+    }
+
+    private void displaySpeechScreen() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "What is the title for the message?");
+
+        //Starts the activity, intent will be populated with speech data text
+        startActivityForResult(intent, 1001);
+    }
+
+    public void onSentClick(View view) {
+        Intent intent = new Intent(MainActivity.this, MessagesList.class);
+        startActivity(intent);
+    }
+
+    public void onReport(View view) {
+        //sendSms();
+
+        new CountDownTimer(3000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                mGpsIssueTextView.setText("Smart Watch will send message in: " + millisUntilFinished / 1000);
+            }
+
+            public void onFinish() {
+                sendSms();
+                mGpsIssueTextView.setText("done!");
+            }
+        }.start();
+
+    }
+
+    private void sendSms() {
+        Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_SHORT).show();
+
     }
 
     private class MyAmbientCallback extends AmbientModeSupport.AmbientCallback {
