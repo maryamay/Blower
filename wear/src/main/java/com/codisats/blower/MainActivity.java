@@ -5,12 +5,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,10 +33,12 @@ import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.wear.ambient.AmbientModeSupport;
 
@@ -53,15 +58,18 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     // Id to identify Location permission request.
     private static final int REQUEST_GPS_PERMISSION = 1;
 
+    // Id to identify SMS permission request.
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 0;
 
     private Calendar mCalendar;
 
-    //private TextView mSpeedTextView;
+    private TextView locationName;
     private ImageView mGpsPermissionImageView;
     private Button mReport;
     private TextView mGpsIssueTextView;
     private ImageView mCustomMessage;
     private Button mSent;
+    private View root;
 
     private String mGpsPermissionNeededMessage;
     private String mAcquiringGpsMessage;
@@ -171,6 +179,8 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
 
         mGpsPermissionImageView = findViewById(R.id.gps_permission);
         mGpsIssueTextView = findViewById(R.id.gps_issue_text);
+        locationName = findViewById(R.id.location_name);
+        root = mGpsIssueTextView.getRootView();
         updateActivityViewsBasedOnLocationPermissions();
     }
 
@@ -351,7 +361,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     /**
      * Callback received when a permissions request has been completed.
      */
-    @Override
+    /*@Override
     public void onRequestPermissionsResult(
             int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
@@ -378,7 +388,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
             updateActivityViewsBasedOnLocationPermissions();
 
         }
-    }
+    }*/
 
     /**
      * Returns {@code true} if this device has the GPS capabilities.
@@ -412,24 +422,109 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     }
 
     public void onReport(View view) {
-        //sendSms();
+        mReport.setEnabled(false);
+        mReport.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.red));
+        SendAtInterval();
+        // new ResendAtInterval();
+
+
+    }
+
+
+    private void SendAtInterval() {
 
         new CountDownTimer(3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                locationName.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.dark_red));
+                root.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.white));
                 mGpsIssueTextView.setText("Smart Watch will send message in: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 sendSms();
-                mGpsIssueTextView.setText("done!");
+                mGpsIssueTextView.setText("Sent!");
+                SendAtInterval();
             }
         }.start();
 
     }
 
     private void sendSms() {
-        Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_SHORT).show();
+        Location mLastLocation;
+        double latitude;
+        double longitude;
+        StringBuffer smsBody = new StringBuffer();
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+
+        try {
+            mLastLocation = LocationServices.FusedLocationApi
+                    .getLastLocation(mGoogleApiClient);
+            latitude = mLastLocation.getLatitude();
+            longitude = mLastLocation.getLatitude();
+
+            String message;
+            message = "This victim is being kidnapped and is currently at lat:" + latitude + " and long:" + longitude;
+            SmsManager smsManager = SmsManager.getDefault();
+
+            smsManager.sendTextMessage("+23481", null, message, null, null);
+            Toast.makeText(getApplicationContext(), "Message Sent!",
+                    Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext(), "Message cannot be sent from this watch!",
+                    Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_SEND_SMS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage("08099449423", null, "Hi", null, null);
+                    Toast.makeText(getApplicationContext(), "Message Sent!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "SMS failed, please try again.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            }
+            case REQUEST_GPS_PERMISSION: {
+                Log.i(TAG, "Received response for GPS permission request.");
+
+                if ((grantResults.length == 1)
+                        && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.i(TAG, "GPS permission granted.");
+                    mGpsPermissionApproved = true;
+
+                    if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+                        requestLocation();
+                    }
+
+                } else {
+                    Log.i(TAG, "GPS permission NOT granted.");
+                    mGpsPermissionApproved = false;
+                }
+
+                updateActivityViewsBasedOnLocationPermissions();
+            }
+
+        }
+        // Toast.makeText(getApplicationContext(), "Message Sent!", Toast.LENGTH_SHORT).show();
 
     }
 
