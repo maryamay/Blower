@@ -5,7 +5,7 @@ android {
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "com.codisats.blower"
-        minSdkVersion 23
+        minSdkVersion 22
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -28,4 +28,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     wearApp project(':wear')
     implementation 'com.google.android.gms:play-services-wearable:+'
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
 }

@@ -3,4 +3,18 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="red">#FF0000</color>
+    <color name="dark_red">#940034</color>
+    <color name="wl_blue">#2878ff</color>
+    <color name="white">#FFFFFF</color>
+    <color name="wl_gray">#c1c1c1</color>
+    <color name="text_color">#BBB</color>
+    <color name="yellow">#ced020</color>
+    <color name="speed_below">#00C853</color>
+    <color name="speed_close">@color/yellow</color>
+    <color name="speed_above">#FF5252</color>
+
+    <color name="cancel">#c1c1c1</color>
+    <color name="cancel_pressed">#838383</color>
+    <color name="lightblue">#2878ff</color>
 </resources>

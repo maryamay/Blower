@@ -88,7 +88,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     private GoogleApiClient mGoogleApiClient;
 
     private Handler mHandler = new Handler();
-
+    private Message mMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -450,6 +450,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
 
     }
 
+
     private void sendSms() {
         Location mLastLocation;
         double latitude;
@@ -473,6 +474,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
 
             String message;
             message = "This victim is being kidnapped and is currently at lat:" + latitude + " and long:" + longitude;
+            // mMessage = message;
             SmsManager smsManager = SmsManager.getDefault();
 
             smsManager.sendTextMessage("+23481", null, message, null, null);
@@ -488,7 +490,7 @@ public class MainActivity extends FragmentActivity implements AmbientModeSupport
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_SEND_SMS: {
                 if (grantResults.length > 0
