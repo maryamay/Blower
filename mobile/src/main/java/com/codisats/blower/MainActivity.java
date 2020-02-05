@@ -303,15 +303,16 @@ public class MainActivity extends AppCompatActivity implements
         List<Address> addresses = null;
         try {
             addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+            String cityName = addresses.get(0).getAddressLine(0);
+            String stateName = addresses.get(0).getAddressLine(1);
+            String countryName = addresses.get(0).getAddressLine(2);
+            String locDetails = cityName + " " + stateName + " " + countryName;
+            mLocDetails = locDetails;
+            locationName.setText(cityName + " " + stateName + " " + countryName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String cityName = addresses.get(0).getAddressLine(0);
-        String stateName = addresses.get(0).getAddressLine(1);
-        String countryName = addresses.get(0).getAddressLine(2);
-        String locDetails = cityName + " " + stateName + " " + countryName;
-        mLocDetails = locDetails;
-        locationName.setText(cityName + " " + stateName + " " + countryName);
+
 
     }
 
