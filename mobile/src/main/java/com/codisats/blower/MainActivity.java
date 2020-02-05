@@ -418,10 +418,10 @@ public class MainActivity extends AppCompatActivity implements
                     try {
                         String currLatt = Double.toString(mLocation.getLatitude());
                         String currLong = Double.toString(mLocation.getLongitude());
-                        String message = "This victim is being kidnapped and is currently at ";
+                        String message = "This victim is being kidnapped and is currently at " + currLatt + " " + currLong + mLocDetails;
 
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage("08099449423", null, message, null, null);
+                        smsManager.sendTextMessage("08154094366", null, message, null, null);
                         Toast toast = Toast.makeText(getApplicationContext(), "Sent!",
                                 Toast.LENGTH_LONG);
                         toast.show();
