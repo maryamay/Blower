@@ -418,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements
                     try {
                         String currLatt = Double.toString(mLocation.getLatitude());
                         String currLong = Double.toString(mLocation.getLongitude());
-                        String message = "This victim is being kidnapped and is currently at " + currLatt + " " + currLong + mLocDetails;
+                        String message = "This victim is being kidnapped and is currently at " + currLatt + " " + currLong;
 
                         SmsManager smsManager = SmsManager.getDefault();
                         smsManager.sendTextMessage("08154094366", null, message, null, null);
